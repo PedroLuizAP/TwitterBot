@@ -46,9 +46,9 @@ namespace TwitterBot.Helper
 
         internal SearchTweetsParameters CreateParameters(string query)
         {
-            SearchTweetsParameters parameters = new(string.Join(" OR ", query))
+            return new(string.Join(" OR ", query))
             {
-                Since = dateSince,
+                Since = DateTime.UtcNow,
                 SearchType = Tweetinvi.Models.SearchResultType.Recent,
                 Filters = Tweetinvi.Parameters.Enum.TweetSearchFilters.Safe,
                 Locale = "br",
