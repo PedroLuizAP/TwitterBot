@@ -21,7 +21,7 @@ string[] searchTerms = new[]
 var dateSince = DateTime.Now;
 //(bolhadev OR paneladev OR sseraphini) lang:pt since:2022-11-22 -filter:replies
 
-var filter = $"({string.Join(" OR ", searchTerms)})";// -filter:replies";
+var filter = $"({string.Join(" OR ", searchTerms)}) -filter:replies";
 
 SearchTweetsParameters parameters = new(filter)
 {
