@@ -6,6 +6,7 @@ using Tweetinvi.Parameters;
 using TwitterBot.Helper;
 
 //var userHelper = new TwitterHelper(args[0], args[1], args[2], args[3]);
+long maxId = 0;
 
 var userClient = new TwitterClient(args[0], args[1], args[2], args[3]);
 
@@ -27,27 +28,35 @@ SearchTweetsParameters parameters = new(filter)
 {
     Since = DateTime.Now,
     SearchType = Tweetinvi.Models.SearchResultType.Recent,
-    Lang = Tweetinvi.Models.LanguageFilter.Portuguese,    
+    //Lang = Tweetinvi.Models.LanguageFilter.Portuguese,
 };
-var searchResponse = await userClient.Search.SearchTweetsAsync(parameters);
 
-var resultTweets = searchResponse.Where(tweet => !tweet.IsRetweet);
-
-var tweets = resultTweets.OrderBy(t => t.CreatedAt).ToList();
-
-foreach (var tw in tweets)
+while (true)
 {
-    try
-    {
-        var allRetweets = await tw.GetRetweetsAsync();
+    parameters.SinceId = maxId;
 
-        if (!allRetweets.Any(x => x.CreatedBy.Id == user.Id)) // probably not necessary already treated in the query inside the parameters
-            await userClient.Tweets.PublishRetweetAsync(tw);
-    }
-    catch (Exception ex)
+    var searchResponse = await userClient.Search.SearchTweetsAsync(parameters);
+
+    var resultTweets = searchResponse.Where(tweet => !tweet.IsRetweet);
+
+    var tweets = resultTweets.OrderBy(t => t.CreatedAt).ToList();
+
+    foreach (var tw in tweets)
     {
-        Console.WriteLine($"error in Tweet {tw.Id} \n {ex.Message}");
+        try
+        {
+            var allRetweets = await tw.GetRetweetsAsync();
+
+            if (!allRetweets.Any(x => x.CreatedBy.Id == user.Id)) // probably not necessary already treated in the query inside the parameters
+                await userClient.Tweets.PublishRetweetAsync(tw);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"error in Tweet {tw.Id} \n {ex.Message}");
+        }
     }
+    maxId = tweets.Max(tweet => tweet.Id);
+    Thread.Sleep(60000);
 }
 
 
