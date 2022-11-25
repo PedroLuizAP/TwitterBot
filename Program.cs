@@ -28,7 +28,6 @@ SearchTweetsParameters parameters = new(filter)
 {
     Since = DateTime.Now,
     SearchType = Tweetinvi.Models.SearchResultType.Recent,
-    //Lang = Tweetinvi.Models.LanguageFilter.Portuguese,
 };
 
 while (true)
