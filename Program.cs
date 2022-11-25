@@ -13,7 +13,7 @@ var user = await userClient.Users.GetAuthenticatedUserAsync();
 
 string[] searchTerms = new[]
    {
-        "@sseraphini",
+        "sseraphini",
         "#paneladev",
         "#bolhadev"
     };
@@ -33,7 +33,7 @@ var searchResponse = await userClient.Search.SearchTweetsAsync(parameters);
 
 var resultTweets = searchResponse.Where(tweet => !tweet.IsRetweet);
 
-var tweets = resultTweets.OrderByDescending(t => t.CreatedAt).ToList();
+var tweets = resultTweets.OrderBy(t => t.CreatedAt).ToList();
 
 foreach (var tw in tweets)
 {
