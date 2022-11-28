@@ -40,21 +40,26 @@ while (true)
 
     var tweets = resultTweets.OrderBy(t => t.CreatedAt).ToList();
 
-    foreach (var tw in tweets)
+    if (tweets != null && tweets.Count > 0)
     {
-        try
+        foreach (var tw in tweets)
         {
-            var allRetweets = await tw.GetRetweetsAsync();
+            try
+            {
+                var allRetweets = await tw.GetRetweetsAsync();
 
-            if (!allRetweets.Any(x => x.CreatedBy.Id == user.Id)) // probably not necessary already treated in the query inside the parameters
-                await userClient.Tweets.PublishRetweetAsync(tw);
+                if (!allRetweets.Any(x => x.CreatedBy.Id == user.Id)) // probably not necessary already treated in the query inside the parameters
+                    await userClient.Tweets.PublishRetweetAsync(tw);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"error in Tweet {tw.Id} \n {ex.Message}");
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"error in Tweet {tw.Id} \n {ex.Message}");
-        }
+
+        maxId = tweets.Max(tweet => tweet.Id);
     }
-    maxId = tweets.Max(tweet => tweet.Id);
+
     Thread.Sleep(60000);
 }
 
