@@ -1,11 +1,6 @@
 ﻿using Tweetinvi;
-using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Models;
 using Tweetinvi.Parameters;
-using TwitterBot.Helper;
 
-//var userHelper = new TwitterHelper(args[0], args[1], args[2], args[3]);
 long maxId = 0;
 
 var userClient = new TwitterClient(args[0], args[1], args[2], args[3]);
@@ -20,7 +15,6 @@ string[] searchTerms = new[]
     };
 
 var dateSince = DateTime.Now;
-//(bolhadev OR paneladev OR sseraphini) lang:pt since:2022-11-22 -filter:replies
 
 var filter = $"({string.Join(" OR ", searchTerms)}) -filter:replies";
 
@@ -48,7 +42,7 @@ while (true)
             {
                 var allRetweets = await tw.GetRetweetsAsync();
 
-                if (!allRetweets.Any(x => x.CreatedBy.Id == user.Id)) // probably not necessary already treated in the query inside the parameters
+                if (!allRetweets.Any(x => x.CreatedBy.Id == user.Id))
                     await userClient.Tweets.PublishRetweetAsync(tw);
             }
             catch (Exception ex)
@@ -60,7 +54,7 @@ while (true)
         maxId = tweets.Max(tweet => tweet.Id);
     }
 
-    Thread.Sleep(60000);
+    Thread.Sleep(10000);
 }
 
 
