@@ -23,9 +23,7 @@ namespace TwitterBot.Helpers
             CreateClient();
         }
 
-        public async Task<IAuthenticatedUser> DetailUser()
-        {
-            return await Client.Users.GetAuthenticatedUserAsync();
-        }
+        public async Task<IAuthenticatedUser> DetailUser() => await Client.Users.GetAuthenticatedUserAsync();
+
     }
 }
