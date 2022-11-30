@@ -13,7 +13,7 @@ namespace TwitterBot.Service
             //_client = client;
         }
 
-        public async Task<ITweet[]> GetAllRetweetUsers(ITweet tweet)
+        public async Task<ITweet[]> GetAllRetweet(ITweet tweet)
         {
             return await tweet.GetRetweetsAsync();
         }
