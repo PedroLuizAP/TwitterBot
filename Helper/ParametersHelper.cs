@@ -2,14 +2,14 @@
 
 namespace TwitterBot.Helper
 {
-    internal class ParametersHelper
+    internal static class ParametersHelper
     {
-        internal string CreateQuery(string[] terms)
+        internal static string CreateQuery(this string[] terms, bool withReplies = true)
         {
-            return $"({string.Join(" OR ", terms)}) -filter:replies";
+            return $"({string.Join(" OR ", terms)})" + (withReplies ? "-filter:replies" : string.Empty);
         }
 
-        internal SearchTweetsParameters CreateParameters(string query)
+        internal static SearchTweetsParameters CreateParameters(this string query)
         {
             return new(query)
             {
