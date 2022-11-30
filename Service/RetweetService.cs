@@ -1,15 +1,16 @@
 ﻿using Tweetinvi;
 using Tweetinvi.Models;
+using TwitterBot.Helpers;
 
 namespace TwitterBot.Service
 {
     internal class RetweetService
     {
-        protected TwitterClient _client { get; set; }
+       // protected ClientService _client { get; set; }
 
-        public RetweetService(TwitterClient client)
+        public RetweetService(/*ClientService client*/)
         {
-            _client = client;
+            //_client = client;
         }
 
         public async Task<ITweet[]> GetAllRetweetUsers(ITweet tweet)
