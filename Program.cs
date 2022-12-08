@@ -33,6 +33,7 @@ while (true)
     var tweets = resultTweets.OrderBy(t => t.CreatedAt).ToList();
 
     if (tweets != null && tweets.Count > 0)
+    {
         foreach (var tw in tweets)
             try
             {
@@ -44,7 +45,13 @@ while (true)
             {
                 Console.WriteLine($"error in Tweet {tw.Id} \n {ex.Message}");
             }
+    }
+    else
+    {
+        Thread.Sleep(60000);
 
+        continue;
+    }
 
     Thread.Sleep(10000);
 }
