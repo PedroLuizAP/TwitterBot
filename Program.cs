@@ -34,7 +34,8 @@ while (true)
 
     if (tweets != null && tweets.Count > 0)
     {
-        foreach (var tw in tweets)
+        tweets.ForEach(async tw =>
+        {
             try
             {
                 var allRetweets = await retweetService.GetAllRetweet(tw);
@@ -45,10 +46,11 @@ while (true)
             {
                 Console.WriteLine($"error in Tweet {tw.Id} \n {ex.Message}");
             }
+        });
     }
     else
     {
-        Thread.Sleep(60000);
+        Thread.Sleep(40000);
 
         continue;
     }

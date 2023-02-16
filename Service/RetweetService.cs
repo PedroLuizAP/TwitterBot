@@ -11,6 +11,5 @@ namespace TwitterBot.Service
         public async Task<ITweet[]> GetAllRetweet(ITweet tweet) => await tweet.GetRetweetsAsync();
         public bool RetweetedByMe(ITweet[] tweets, long userId) => tweets.Any(x => x.CreatedBy.Id == userId);
         public async Task Retweet(ITweet tweet) => await _client.Client.Tweets.PublishRetweetAsync(tweet);
-
     }
 }
