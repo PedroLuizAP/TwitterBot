@@ -50,7 +50,7 @@ while (true)
     }
     else
     {
-        Thread.Sleep(40000);
+        Thread.Sleep(30000);
 
         continue;
     }
