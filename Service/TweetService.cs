@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models;
+﻿using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using TwitterBot.Helpers;
 
@@ -23,13 +24,20 @@ namespace TwitterBot.Service
 
         internal async Task<ITweet[]> FindByParameters(SearchTweetsParameters parameters, bool updateMaxId = true)
         {
-            UseMaxId(parameters); 
+            try
+            {
+                UseMaxId(parameters);
 
-            var tweets = await _client.Client.Search.SearchTweetsAsync(parameters);
+                var tweets = await _client.Client.Search.SearchTweetsAsync(parameters);
 
-            if (updateMaxId && tweets.Length > 0) SetMaxId(tweets);
+                if (updateMaxId && tweets.Length > 0) SetMaxId(tweets);
 
-            return tweets;
+                return tweets;
+            }
+            catch(TwitterTimeoutException ex)
+            {
+                return null;
+            }
         }   
     }
 }

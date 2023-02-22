@@ -28,9 +28,9 @@ while (true)
 {
     var searchResponse = await tweetService.FindByParameters(parameters);
 
-    var resultTweets = searchResponse.Where(tweet => !tweet.IsRetweet);
+    var resultTweets = searchResponse?.Where(tweet => !tweet.IsRetweet);
 
-    var tweets = resultTweets.OrderBy(t => t.CreatedAt).ToList();
+    var tweets = resultTweets?.OrderBy(t => t.CreatedAt).ToList();
 
     if (tweets != null && tweets.Count > 0)
     {
