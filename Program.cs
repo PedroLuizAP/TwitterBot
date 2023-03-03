@@ -55,7 +55,7 @@ while (true)
         continue;
     }
 
-    Thread.Sleep(10000);
+    Thread.Sleep(8000);
 }
 
 
