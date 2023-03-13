@@ -27,6 +27,7 @@ UserService userService = new(clientService);
 
 await userService.GetUserInfo();
 
+RetweetService retweetService = new(clientService);
 
 var userId = userService.GetUserId();
 
@@ -38,55 +39,13 @@ while (true)
 
     var mentionResponse = await tweetService.FindMentions(mentionParameter);
 
-    var resultTweets = searchResponse?.Where(tweet => !tweet.IsRetweet).ToList();
+    var resultTweets = searchResponse?.Where(tweet => !tweet.IsRetweet)?.OrderBy(t => t.CreatedAt).ToList();
 
-    var resultMentions = mentionResponse?.Where(tweet => tweet.Text.Contains($"@{userScreenName}")).ToList();
+    if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId);    
 
-    if (resultTweets?.Count > 0)
-    {
-        resultTweets = resultTweets.OrderBy(t => t.CreatedAt).ToList();
+    var resultMentions = mentionResponse?.Where(tweet => tweet.Text.Contains($"@{userScreenName}"))?.OrderBy(t => t.CreatedAt).ToList();
 
-        resultTweets.ForEach(async tw =>
-        {
-            RetweetService retweetService = new(clientService);
-
-            try
-            {
-                var allRetweets = await retweetService.GetAllRetweet(tw);
-
-                if (!retweetService.RetweetedByMe(allRetweets, userId)) await retweetService.Retweet(tw);
-            }
-            catch (Exception ex)
-            {
-                try { await retweetService.Retweet(tw); } catch { }
-
-                Console.WriteLine($"error in Tweet {tw.Id} \n {ex.Message}");
-            }
-        });
-    }
-
-    if (resultMentions?.Count > 0)
-    {
-        resultMentions = resultMentions.OrderBy(t => t.CreatedAt).ToList();
-
-        resultMentions.ForEach(async tw =>
-        {
-            RetweetService retweetService = new(clientService);
-
-            try
-            {
-                var allRetweets = await retweetService.GetAllRetweet(tw);
-
-                if (!retweetService.RetweetedByMe(allRetweets, userId)) await retweetService.Retweet(tw);
-            }
-            catch (Exception ex)
-            {
-                try { await retweetService.Retweet(tw); } catch { }
-
-                Console.WriteLine($"error in Mention {tw.Id} \n {ex.Message}");
-            }
-        });
-    }
+    if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);    
 
     if (resultMentions?.Count > 0 || resultTweets?.Count > 0)
     {
