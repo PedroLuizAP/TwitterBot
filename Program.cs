@@ -39,11 +39,11 @@ while (true)
 
     var mentionResponse = await tweetService.FindMentions(mentionParameter);
 
-    var resultTweets = searchResponse?.Where(tweet => !tweet.IsRetweet)?.OrderBy(t => t.CreatedAt).ToList();
+    var resultTweets = searchResponse.FilterTweets();
 
     if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId);    
 
-    var resultMentions = mentionResponse?.Where(tweet => tweet.Text.Contains($"@{userScreenName}"))?.OrderBy(t => t.CreatedAt).ToList();
+    var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
     if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);    
 
@@ -54,5 +54,5 @@ while (true)
         continue;
     }
 
-    Thread.Sleep(50000);
+    Thread.Sleep(30000);
 }
