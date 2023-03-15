@@ -49,16 +49,34 @@ namespace TwitterBot.Service
             {
                 UseMaxId(parameters);
 
-                var tweets = _maxMentionId > 0 ? await _client.Client.Timelines.GetMentionsTimelineAsync(parameters) : await _client.Client.Timelines.GetMentionsTimelineAsync();
+                var response = _maxMentionId > 0 ? await _client.Client.Timelines.GetMentionsTimelineAsync(parameters) : await _client.Client.Timelines.GetMentionsTimelineAsync();
 
-                if (updateMaxId && tweets.Length > 0) SetMaxMentionId(tweets);
+                var tweets = new List<ITweet>();
 
-                return tweets;
+                foreach (var tweet in response)
+                {
+                    tweets.Add(tweet);
+
+                    if (tweet.InReplyToStatusId == null) continue;
+
+                    var tweetToRetweet = await FindById(tweet.InReplyToStatusId);
+
+                    tweets.Add(tweetToRetweet);
+                }
+
+                if (updateMaxId && tweets.Count > 0) SetMaxMentionId(response);
+
+                return tweets.ToArray();
             }
             catch (TwitterTimeoutException)
             {
                 return null;
             }
+        }
+
+        private async Task<ITweet> FindById(long? id)
+        {
+            return await _client.Client.Tweets.GetTweetAsync((long)id!);
         }
     }
 }
