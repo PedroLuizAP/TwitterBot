@@ -51,7 +51,7 @@ namespace TwitterBot.Service
 
                 var response = _maxMentionId > 0 ? await _client.Client.Timelines.GetMentionsTimelineAsync(parameters) : await _client.Client.Timelines.GetMentionsTimelineAsync();
 
-                var tweets = new List<ITweet>();
+                List<ITweet> tweets = new();
 
                 foreach (var tweet in response)
                 {

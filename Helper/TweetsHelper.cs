@@ -6,7 +6,7 @@ namespace TwitterBot.Helper
     {
         public static List<ITweet> FilterTweets(this ITweet[]? tweetsFilter, bool isMentions = false, string userScreenName = "")
         {
-            List<ITweet> tweets = new List<ITweet>();
+            List<ITweet> tweets = new();
 
             if (tweetsFilter?.Length > 0)
             {
