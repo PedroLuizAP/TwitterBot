@@ -61,7 +61,7 @@ namespace TwitterBot.Service
 
                     var tweetToRetweet = await FindById(tweet.InReplyToStatusId);
 
-                    tweets.Add(tweetToRetweet);
+                    if(tweetToRetweet != null) tweets.Add(tweetToRetweet);
                 }
 
                 if (updateMaxId && tweets.Count > 0) SetMaxMentionId(response);
@@ -74,9 +74,16 @@ namespace TwitterBot.Service
             }
         }
 
-        private async Task<ITweet> FindById(long? id)
+        private async Task<ITweet?> FindById(long? id)
         {
-            return await _client.Client.Tweets.GetTweetAsync((long)id!);
+            try
+            {
+                return await _client.Client.Tweets.GetTweetAsync((long)id!);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
