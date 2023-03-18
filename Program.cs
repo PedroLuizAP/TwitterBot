@@ -6,16 +6,9 @@ using TwitterBot.Service;
 
 ClientService clientService = new(args[0], args[1], args[2], args[3]);
 
-string[] searchTerms = new[]
-{
-    "sseraphini",
-    "#paneladev",
-    "#bolhadev"
-};
+string[] terms = ParametersHelper.CreateTerms();
 
-var dateSince = DateTime.Now;
-
-var query = searchTerms.CreateQuery();
+var query = terms.CreateQuery();
 
 var parameters = query.CreateParameters();
 
