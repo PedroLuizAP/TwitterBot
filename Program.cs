@@ -38,14 +38,9 @@ while (true)
 
     var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
-    if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);    
+    if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);
 
-    if (resultMentions?.Count > 0 || resultTweets?.Count > 0)
-    {
-        Thread.Sleep(10000);
-
-        continue;
-    }
-
-    Thread.Sleep(30000);
+    int valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
+        
+    Thread.Sleep(valueTimeout);
 }
