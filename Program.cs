@@ -1,12 +1,9 @@
-﻿using Tweetinvi.Models;
-using Tweetinvi.Parameters;
-using TwitterBot.Helper;
+﻿using TwitterBot.Helper;
 using TwitterBot.Helpers;
 using TwitterBot.Service;
 
 ClientService clientService = new(args[0], args[1], args[2], args[3]);
-
-string[] terms = ParametersHelper.CreateTerms();
+var terms = ParametersHelper.CreateTerms();
 
 var query = terms.CreateQuery();
 
@@ -34,13 +31,13 @@ while (true)
 
     var resultTweets = searchResponse.FilterTweets();
 
-    if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId);    
+    if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId);
 
     var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
     if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);
 
-    int valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
-        
+    var valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
+
     Thread.Sleep(valueTimeout);
 }
