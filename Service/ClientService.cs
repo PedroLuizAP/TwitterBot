@@ -1,5 +1,4 @@
 ﻿using Tweetinvi;
-using Tweetinvi.Models;
 
 namespace TwitterBot.Helpers
 {
@@ -9,7 +8,7 @@ namespace TwitterBot.Helpers
         private string _consumerSecret { get; set; }
         private string _accessToken { get; set; }
         private string _accessSecret { get; set; }
-        public TwitterClient Client { get; set; }
+        public TwitterClient? Client { get; set; }
 
         private void CreateClient() => Client = new(_consumerKey, _consumerSecret, _accessToken, _accessSecret);
 
