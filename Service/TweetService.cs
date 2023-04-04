@@ -18,20 +18,19 @@ namespace TwitterBot.Service
 
         internal async Task<ITweet[]> FindByQuery(string query, bool updateMaxId = true)
         {
-            var tweets = await _client.Client.Search.SearchTweetsAsync(query);
+            var tweets = await _client.Client!.Search.SearchTweetsAsync(query);
 
             if (updateMaxId && tweets.Length > 0) SetMaxId(tweets);
 
             return tweets;
         }
-
         internal async Task<ITweet[]?> FindByParameters(SearchTweetsParameters parameters, bool updateMaxId = true)
         {
             try
             {
                 UseMaxId(parameters);
 
-                var tweets = await _client.Client.Search.SearchTweetsAsync(parameters);
+                var tweets = await _client.Client!.Search.SearchTweetsAsync(parameters);
 
                 if (updateMaxId && tweets.Length > 0) SetMaxId(tweets);
 
@@ -49,7 +48,7 @@ namespace TwitterBot.Service
             {
                 UseMaxId(parameters);
 
-                var response = _maxMentionId > 0 ? await _client.Client.Timelines.GetMentionsTimelineAsync(parameters) : await _client.Client.Timelines.GetMentionsTimelineAsync();
+                var response = _maxMentionId > 0 ? await _client.Client!.Timelines.GetMentionsTimelineAsync(parameters) : await _client.Client!.Timelines.GetMentionsTimelineAsync();
 
                 List<ITweet> tweets = new();
 
@@ -61,7 +60,7 @@ namespace TwitterBot.Service
 
                     var tweetToRetweet = await FindById(tweet.InReplyToStatusId);
 
-                    if(tweetToRetweet != null) tweets.Add(tweetToRetweet);
+                    if (tweetToRetweet != null) tweets.Add(tweetToRetweet);
                 }
 
                 if (updateMaxId && tweets.Count > 0) SetMaxMentionId(response);
@@ -78,7 +77,7 @@ namespace TwitterBot.Service
         {
             try
             {
-                return await _client.Client.Tweets.GetTweetAsync((long)id!);
+                return await _client.Client!.Tweets.GetTweetAsync((long)id!);
             }
             catch
             {
