@@ -7,8 +7,8 @@ namespace TwitterBot.Service
 {
     internal class TweetService
     {
-        private long _maxId { get; set; } = 0;
-        private long _maxMentionId { get; set; } = 0;
+        private long _maxId { get; set; }
+        private long _maxMentionId { get; set; }
         protected ClientService _client { get; set; }
         public TweetService(ClientService client) => _client = client;
         private void UseMaxId(SearchTweetsParameters parameters) => parameters.SinceId = _maxId;
