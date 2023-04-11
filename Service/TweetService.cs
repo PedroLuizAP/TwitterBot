@@ -38,6 +38,7 @@ namespace TwitterBot.Service
             }
             catch (TwitterTimeoutException)
             {
+                Console.WriteLine("Timeout");
                 return null;
             }
         }
@@ -67,8 +68,9 @@ namespace TwitterBot.Service
 
                 return tweets.ToArray();
             }
-            catch (TwitterTimeoutException)
+            catch (TwitterTimeoutException ex)
             {
+                Console.WriteLine("Timeout");
                 return null;
             }
         }
