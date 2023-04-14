@@ -68,6 +68,11 @@ namespace TwitterBot.Service
 
                 return tweets.ToArray();
             }
+            catch(HttpRequestException ex)
+            {
+                Console.WriteLine("Host bug");
+                return null;
+            }
             catch (TwitterTimeoutException ex)
             {
                 Console.WriteLine("Timeout");
