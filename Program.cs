@@ -24,21 +24,28 @@ var userId = userService.GetUserId();
 
 var userScreenName = userService.GetUserScreenName();
 
-while (true)
+do
 {
-    var searchResponse = await tweetService.FindByParameters(parameters);
+    try
+    {
+        var searchResponse = await tweetService.FindByParameters(parameters);
 
-    var mentionResponse = await tweetService.FindMentions(mentionParameter);
+        var mentionResponse = await tweetService.FindMentions(mentionParameter);
 
-    var resultTweets = searchResponse.FilterTweets();
+        var resultTweets = searchResponse.FilterTweets();
 
-    if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId);
+        if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId);
 
-    var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
+        var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
-    if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);
+        if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);
 
-    var valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
+        var valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
 
-    Thread.Sleep(valueTimeout);
-}
+        Thread.Sleep(valueTimeout);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+} while (true);
