@@ -75,7 +75,7 @@ namespace TwitterBot.Service
             }
             catch (TwitterTimeoutException ex)
             {
-                Console.WriteLine("Timeout");
+                Console.WriteLine("Timeout" + ex.Message);
                 return null;
             }
         }

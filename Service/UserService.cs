@@ -12,13 +12,13 @@ namespace TwitterBot.Service
 
         public async Task GetUserInfo()
         {
-            var user = await _client.Client.Users.GetAuthenticatedUserAsync();
+            var user = await _client.Client!.Users.GetAuthenticatedUserAsync();
             
             _user = user.UserDTO;
         }
 
-        public long GetUserId() =>  _user!.Id;
-        public string GetUserScreenName() =>  _user!.ScreenName;
+        public long GetUserId() => _user!.Id;
+        public string GetUserScreenName() => _user!.ScreenName;
         
     }
 }

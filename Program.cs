@@ -17,7 +17,7 @@ TweetService tweetService = new(clientService);
 UserService userService = new(clientService);
 
 await userService.GetUserInfo();
-
+  
 RetweetService retweetService = new(clientService);
 
 var userId = userService.GetUserId();
