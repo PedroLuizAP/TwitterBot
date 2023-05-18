@@ -4,6 +4,8 @@ using TwitterBot.Service;
 
 ClientService clientService = new(args[0], args[1], args[2], args[3]);
 
+var blockedHelper = new BlockedHelper();
+
 var terms = ParametersHelper.CreateTerms();
 
 var query = terms.CreateQuery();
