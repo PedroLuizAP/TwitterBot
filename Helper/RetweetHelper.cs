@@ -8,7 +8,7 @@ namespace TwitterBot.Helper
         private static async Task<ITweet[]> GetAllRetweet(this ITweet tweet) => await tweet.GetRetweetsAsync();
         private static bool RetweetedByMe(this ITweet[] tweets, long userId) => tweets.Any(x => x.CreatedBy.Id == userId);
 
-        public static async Task RetweetTweets(this List<ITweet> resultMentions, RetweetService retweetService, long userId)
+        public static async Task RetweetTweets(this List<ITweet> resultMentions, RetweetService retweetService, long userId, BlockedHelper blockedHelper)
         {
             foreach (var tw in resultMentions)
             {
@@ -16,7 +16,7 @@ namespace TwitterBot.Helper
                 {
                     var allRetweets = await tw.GetAllRetweet();
 
-                    if (!allRetweets.RetweetedByMe(userId)) await retweetService.Retweet(tw);
+                    if (!allRetweets.RetweetedByMe(userId) && blockedHelper.Verify(tw)) await retweetService.Retweet(tw);
                 }
                 catch (Exception ex)
                 {

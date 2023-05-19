@@ -36,11 +36,11 @@ do
 
         var resultTweets = searchResponse.FilterTweets();
 
-        if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId);
+        if (resultTweets?.Count > 0) await resultTweets.RetweetTweets(retweetService, userId, blockedHelper);
 
         var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
-        if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId);
+        if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId, blockedHelper);
 
         var valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
 
