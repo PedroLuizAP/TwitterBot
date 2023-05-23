@@ -30,6 +30,7 @@ do
 {
     try
     {
+#if DEBUG
         var searchResponse = await tweetService.FindByParameters(parameters);
 
         var mentionResponse = await tweetService.FindMentions(mentionParameter);
@@ -41,6 +42,9 @@ do
         var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
         if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId, blockedHelper);
+#else
+        BlockedHelper.Start();
+#endif
 
         var valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
 
