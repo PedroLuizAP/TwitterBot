@@ -42,6 +42,7 @@ do
         var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
         if (resultMentions?.Count > 0) await resultMentions.RetweetTweets(retweetService, userId, blockedHelper);
+
 #else
         BlockedHelper.Start();
 #endif

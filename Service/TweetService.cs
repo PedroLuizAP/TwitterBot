@@ -39,6 +39,7 @@ namespace TwitterBot.Service
             catch (TwitterTimeoutException)
             {
                 Console.WriteLine("Timeout");
+
                 return null;
             }
         }
@@ -71,11 +72,13 @@ namespace TwitterBot.Service
             catch(HttpRequestException ex)
             {
                 Console.WriteLine("Host bug");
+
                 return null;
             }
             catch (TwitterTimeoutException ex)
             {
                 Console.WriteLine("Timeout" + ex.Message);
+
                 return null;
             }
         }

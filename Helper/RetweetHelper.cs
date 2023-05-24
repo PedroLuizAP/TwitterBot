@@ -14,13 +14,14 @@ namespace TwitterBot.Helper
             {
                 try
                 {
-                    var allRetweets = await tw.GetAllRetweet();
+                    var allRetweets = await tw.GetRetweetsAsync();
 
                     if (!allRetweets.RetweetedByMe(userId) && blockedHelper.Verify(tw)) await retweetService.Retweet(tw);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"RetweetHelper");
+
                     Console.WriteLine($"error in Mention {tw.Id} \n {ex.Message}");
                 }
             }
