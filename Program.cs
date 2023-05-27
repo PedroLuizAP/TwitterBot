@@ -45,6 +45,10 @@ do
 
 #else
         BlockedHelper.Start();
+
+        BlockedHelper.Filter();
+
+        BlockedHelper.Retweet();
 #endif
 
         var valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
