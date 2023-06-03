@@ -48,6 +48,8 @@ do
 
         BlockedHelper.Filter();
 
+        BlockedHelper.Favorite();
+
         BlockedHelper.Retweet();
 #endif
 
