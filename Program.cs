@@ -47,6 +47,8 @@ do
         BlockedHelper.Start();
 
         BlockedHelper.Filter();
+        
+        BlockedHelper.Find();
 
         BlockedHelper.Favorite();
 
