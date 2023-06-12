@@ -53,6 +53,8 @@ do
         BlockedHelper.Favorite();
 
         BlockedHelper.Retweet();
+      
+        if(BlockedHelper.HasError) break;
 #endif
 
         var valueTimeout = resultMentions?.Count > 0 || resultTweets?.Count > 0 ? 10000 : 30000;
