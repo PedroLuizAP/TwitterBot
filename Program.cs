@@ -57,6 +57,8 @@ do
         BlockedHelper.Favorite();
 
         BlockedHelper.Retweet();
+      
+        if(BlockedHelper.HasError) break;
 #endif
 
         if (resultMentions?.Count == 0 && searchResponse?.Length > 0) tweetService.SetMaxMentionId(searchResponse);
