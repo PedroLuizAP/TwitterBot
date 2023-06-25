@@ -12,12 +12,7 @@ namespace TwitterBot.Helper
             {
                 foreach (var tweet in tweetsFilter)
                 {
-                    if (isMentions && tweet.InReplyToStatusId != null && tweet.Text.Contains($"@{userScreenName}"))
-                    {
-                        tweet.FavoriteAsync().Wait();
-
-                        continue;
-                    }
+                    if (isMentions && tweet.Text.Contains($"@{userScreenName}")) tweet.FavoriteAsync().Wait();
 
                     if (tweet.IsRetweet || tweet.InReplyToStatusId != null) continue;
 

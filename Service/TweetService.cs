@@ -7,14 +7,21 @@ namespace TwitterBot.Service
 {
     internal class TweetService
     {
+        public TweetService(ClientService client, long sinceId)
+        {
+            _maxId = sinceId;
+
+            _maxMentionId = sinceId;
+            
+            _client = client;
+        }
         private long _maxId { get; set; }
         private long _maxMentionId { get; set; }
         protected ClientService _client { get; set; }
-        public TweetService(ClientService client) => _client = client;
         private void UseMaxId(SearchTweetsParameters parameters) => parameters.SinceId = _maxId;
         private void UseMaxId(GetMentionsTimelineParameters parameters) => parameters.SinceId = _maxMentionId;
         private void SetMaxId(ITweet[] tweets) => _maxId = tweets.Max(tweet => tweet.Id);
-        private void SetMaxMentionId(ITweet[] tweets) => _maxMentionId = tweets.Max(tweet => tweet.Id);
+        public void SetMaxMentionId(ITweet[] tweets) => _maxMentionId = tweets.Max(tweet => tweet.Id);
 
         internal async Task<ITweet[]> FindByQuery(string query, bool updateMaxId = true)
         {
@@ -50,7 +57,7 @@ namespace TwitterBot.Service
             {
                 UseMaxId(parameters);
 
-                var response = _maxMentionId > 0 ? await _client.Client!.Timelines.GetMentionsTimelineAsync(parameters) : await _client.Client!.Timelines.GetMentionsTimelineAsync();
+                var response = await _client.Client!.Timelines.GetMentionsTimelineAsync(parameters);
 
                 List<ITweet> tweets = new();
 
