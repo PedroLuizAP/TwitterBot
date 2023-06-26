@@ -37,15 +37,22 @@ do
 #if DEBUG
         var searchResponse = await tweetService.FindByParameters(parameters);
 
-        var mentionResponse = await tweetService.FindMentions(mentionParameter);
-
         var resultTweets = searchResponse.FilterTweets();
 
-        if (resultTweets?.Count > 0) await retweetHelper.RetweetTweets(resultTweets);
+        if (resultTweets?.Count > 0)
+        {
+            await retweetHelper.RetweetTweets(resultTweets);
+                
+            var mentionResponse = await tweetService.FindMentions(mentionParameter);
+        
+            var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
 
-        var resultMentions = mentionResponse.FilterTweets(true, userScreenName);
+            resultTweets.ForEach(retweetTweet => {
+                resultMentions.RemoveAll(tweet => tweet.Id == retweetTweet.Id);
+            });
 
-        if (resultMentions?.Count > 0) await retweetHelper.RetweetTweets(resultMentions);
+            if (resultMentions?.Count > 0) await retweetHelper.RetweetTweets(resultMentions);
+        }
 
 #else
         BlockedHelper.Start();
@@ -61,7 +68,7 @@ do
         if(BlockedHelper.HasError) break;
 #endif
 
-        if (resultMentions?.Count == 0 && searchResponse?.Length > 0) tweetService.SetMaxMentionId(searchResponse);
+        if (searchResponse?.Length > 0) tweetService.SetMaxMentionId(searchResponse);
 
         var valueTimeout = resultTweets?.Count > 0 ? 10000 : 40000;
 
