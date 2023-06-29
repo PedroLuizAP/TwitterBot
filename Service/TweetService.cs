@@ -47,6 +47,8 @@ namespace TwitterBot.Service
             {
                 Console.WriteLine("Timeout");
 
+                Thread.Sleep(60000);
+
                 return null;
             }
         }
@@ -80,11 +82,15 @@ namespace TwitterBot.Service
             {
                 Console.WriteLine("Host bug");
 
+                Thread.Sleep(60000);
+
                 return null;
             }
             catch (TwitterTimeoutException ex)
             {
                 Console.WriteLine("Timeout" + ex.Message);
+
+                Thread.Sleep(60000);
 
                 return null;
             }
@@ -98,6 +104,8 @@ namespace TwitterBot.Service
             }
             catch
             {
+                Thread.Sleep(60000);
+
                 return null;
             }
         }

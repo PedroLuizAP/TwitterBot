@@ -77,6 +77,8 @@ do
     catch (Exception ex)
     {
         Console.WriteLine(ex.Message);
+
+        Thread.Sleep(60000);
     }
     finally
     {
