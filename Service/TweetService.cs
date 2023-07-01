@@ -104,6 +104,8 @@ namespace TwitterBot.Service
             }
             catch
             {
+                Console.WriteLine("Tweet not found");
+
                 Thread.Sleep(60000);
 
                 return null;

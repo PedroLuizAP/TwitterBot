@@ -49,8 +49,6 @@ namespace TwitterBot.Helper
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"RetweetHelper");
-
                     Console.WriteLine($"error in Mention {tw.Id} \n {ex.Message}");
 
                     Thread.Sleep(60000);
