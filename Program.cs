@@ -61,11 +61,14 @@ do
         
         BlockedHelper.Find();
 
-        BlockedHelper.Favorite();
+        BlockedHelper.FavoriteRetweet();
 
-        BlockedHelper.Retweet();
-      
-        if(BlockedHelper.HasError) break;
+        if(BlockedHelper.HasError) 
+        {
+            BlockedHelper.ShowMessages();
+
+            break
+        };
 #endif
 
         if (searchResponse?.Length > 0) tweetService.SetMaxMentionId(searchResponse);
