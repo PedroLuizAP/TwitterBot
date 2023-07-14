@@ -1,4 +1,5 @@
-﻿using TwitterBot.Helper;
+﻿using Tweetinvi.Exceptions;
+using TwitterBot.Helper;
 using TwitterBot.Helpers;
 using TwitterBot.Service;
 
@@ -76,6 +77,10 @@ do
         var valueTimeout = resultTweets?.Count > 0 ? 10000 : 40000;
 
         Thread.Sleep(valueTimeout);
+    }
+    catch(TwitterException ex)
+    {
+        if(ex.StatusCode == 403) break;
     }
     catch (Exception ex)
     {
